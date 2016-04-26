@@ -14,6 +14,9 @@
 	die();	
 	*/
 
+	
+	$nombreFoto = $legajo."_".$apellido."_".$nombre.".".pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION);
+	//var_dump($nombreFoto);die(); string(20) "555_Dente_andres.jpg"
 	//$unalumno = new Alumno($legajo,$apellido,$nombre,$legajo.$nomext[2]);
 	$unalumno = new Alumno($legajo,$apellido,$nombre,$foto);
 
@@ -22,6 +25,12 @@
 	{
 
 		$unalumno->Guardar();
+	}
+	elseif ($accion == "modificacion") {
+
+		//Alumno::Modificar($unalumno);
+		$unalumno->Modificar($legajo,$apellido,$nombre,$nombreFoto);
+
 	}
 	else
 	{

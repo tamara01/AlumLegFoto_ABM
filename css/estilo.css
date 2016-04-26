@@ -8,7 +8,7 @@
 body {
   margin: 0 auto;
   color:#f0f0f0;
-  background:#3f51b5;
+  background:#3886AC;
   font-family:'Open Sans',sans-serif;
 }
 
@@ -42,7 +42,7 @@ caption {
   max-width: 30%;
   border: dashed;
 
-background: royalblue;
+background: #3857AC;
 top: 0px;
 width: 400px;
 margin: 0;
@@ -58,7 +58,7 @@ border-radius: 15px;
   max-width: 30%;
   border: dashed;
  position: fixed;
-background: royalblue;
+background: #3857AC;
 top: 0px;
 width: 400px;
 margin: 0;
@@ -272,4 +272,9 @@ position: absolute;
   height: 100px;
   padding: 10px;
 
+}
+
+table, th, td
+{
+  border: 1px solid black;
 }

@@ -28,7 +28,7 @@ Alumno::CrearTablaIngresado();
     <div class="CajaUno animated bounceInDown">
 
             <form action="<?php echo $path; ?>" method="post" enctype="multipart/form-data">
-            <input type="text" name="legajo"  id="autocomplete" required pattern="[0-9]{3}" placeholder="Legajo"/>
+            <input type="text" name="legajo"  id="autocomplete" title="formato ej: 666" pattern="[0-9]{3}" placeholder="Legajo" required/>
             <br>
             <input type="text" name="apellido"  id="autocomplete"  placeholder="Apellido"/>
             <br>
@@ -37,8 +37,10 @@ Alumno::CrearTablaIngresado();
             <input type="file" class="MiBotonUTN" name="archivo" >
             <br>
             <input type="submit" id="botonIngreso" class="MiBotonUTN" value="ingreso"  name="registrar" />
-            <br/>
             <input type="submit" class="MiBotonUTNLinea" value="egreso" name="registrar" />
+            <br/>
+            <br/>
+            <input type="submit" class="MiBotonUTNLinea" value="modificacion" name="registrar" />
           </form>
 
 <div id="outputbox">

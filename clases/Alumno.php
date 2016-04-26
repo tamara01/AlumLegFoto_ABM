@@ -14,6 +14,45 @@ class Alumno
 		$this->foto = $foto;
 	}	
 
+//--------------------------------------------------------------------------------//
+//--GETTERS Y SETTERS
+	public function GetApellido()
+	{
+		return $this->apellido;
+	}
+	public function SetApellido($valor)
+	{
+		$this->apellido = $valor;
+	}
+
+	public function GetNombre()
+	{
+		return $this->nombre;
+	}
+	public function SetNombre($valor)
+	{
+		$this->nombre = $valor;
+	}
+
+	public function GetLegajo()
+	{
+		return $this->legajo;
+	}
+	public function SetLegajo($valor)
+	{
+		$this->legajo = $valor;
+	}
+
+	public function GetFoto()
+	{
+		return $this->foto;
+	}
+	public function SetFoto($valor)
+	{
+		$this->foto = $valor;
+	}
+//--------------------------------------------------------------------------------//
+
 	private function Mostrar()
 	{
 		echo "<br>".$this->nombre." ".$apellido;
@@ -81,7 +120,120 @@ class Alumno
 		fwrite($archivo, $renglon); 		 
 		fclose($archivo);
 	}
+	/*
+	public static function Modificar($alu){
+		$arrPersonas = array();
 		
+		$a = fopen("archivos/estacionados.txt", "r");
+		
+		while(!feof($a)){
+		
+			$arr = explode("=>", fgets($a));
+
+			if(count($arr) > 1){
+				if((int)$arr[0] == $alu->GetLegajo()){
+					$persona = $alu;
+				}
+				else{
+					$persona = new Alumno($persona->SetLegajo($arr[0]),$persona->SetApellido($arr[1]),$persona->SetNombre($arr[2]),$persona->SetFoto($arr[3]));
+					
+					$persona->SetLegajo($arr[0]);
+					$persona->SetApellido($arr[1]);
+					$persona->SetNombre($arr[2]);
+					$persona->SetFoto($arr[3]);
+				}
+				array_push($arrPersonas, $persona);
+			}
+		}
+		fclose($a);
+		
+		$a = fopen("archivos/estacionados.txt", "w");
+		foreach($arrPersonas AS $p){
+			$p->Insertar();
+		}
+		fclose($a);	
+	}
+	
+	public static function Modificar($leg,$Ap,$Nom,$Fot)
+	{
+		$listaAlumnosArchivo = Alumno::Leer();
+		$listaAlumnosGuardados = array();
+		$esta = false;
+		$nombreFoto = $leg."_".$Ap."_".$Nom.".".pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION);
+		
+		foreach ($listaAlumnosArchivo as $alumnito) {
+			if(trim($alumnito[0]) != trim($leg)){
+				$listaAlumnosGuardados[] = $alumnito;
+			}
+			else
+			{
+				$esta = true;
+				$alumnito[0]=$leg;
+				$alumnito[1]=$Ap;
+				$alumnito[2]=$Nom;
+				$alumnito[3]=$nombreFoto."\n";
+				$listaAlumnosGuardados[] = $alumnito;				
+			}
+		}		
+		if($esta)
+		{
+			Alumno::GuardarListado($listaAlumnosGuardados);
+			//$_SESSION['mensaje'] = "Sacado Alumno $alumnoSacar";
+		}	
+	}
+	*/
+	public static function Modificar($leg,$Ap,$Nom,$Fot)
+	{
+		$listaAlumnosArchivo = Alumno::Leer();
+		$listaAlumnosGuardados = array();
+		$esta = false;
+		$lModi=$leg;
+		$aModi=$Ap;
+		$nModi=$Nom;
+		$fModi=$Fot;	
+
+		foreach ($listaAlumnosArchivo as $alumnito) {
+			if(trim($alumnito[0]) != trim($leg)){
+				$listaAlumnosGuardados[] = $alumnito;
+			}
+			else
+			{								
+				if($_FILES['archivo']['size'] > 1480576 || $_FILES['archivo']['size'] == 0){
+					$tamaño = $foto['archivo']['size'];
+					$_SESSION['mensaje'] = "La foto supera el tamaño permitido!";
+				}
+				elseif((strtoupper(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION)) != 'JPG') && (strtoupper(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION)) != ' ')){
+					$_SESSION['mensaje'] = "Formato ($extension) no valido  ";
+				}
+				else{
+					$extension = $aModi."_".$nModi."_".$lModi.".".pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION);
+				    move_uploaded_file($_FILES['archivo']['tmp_name'] , "Fotitos/$extension");		
+				    $esta = true;
+					$alumnito[0]=$lModi;
+					$alumnito[1]=$aModi;
+					$alumnito[2]=$nModi;
+					$alumnito[3]=$extension."\n";
+					$listaAlumnosGuardados[] = $alumnito;	
+				}
+			}
+		}		
+		if($esta)
+		{			
+			Alumno::GuardarListado($listaAlumnosGuardados);
+			$_SESSION['mensaje'] = "Alumno Modificado";
+		}	
+	}
+//--------------------------------------------------------------------------------//
+//--METODOS DE INSTANCIA
+	public function Insertar()
+	{
+		$a = fopen("archivos/estacionados.txt", "a");
+		fwrite($a, $this->ToString() . "\r\n");
+		
+		fclose($a);
+	}	
+//--------------------------------------------------------------------------------//
+
 	public static function Leer()
 	{
 		$ListaDeAutosLeida=   array();
@@ -220,6 +372,11 @@ class Alumno
 
 	}
 
+	public function ToString()
+			{
+				return $this->GetLegajo()."=>".$this->GetApellido()."=>".$this->GetNombre()."=>".$this->GetFoto. "\n";
+				
+			}
 
 }
 

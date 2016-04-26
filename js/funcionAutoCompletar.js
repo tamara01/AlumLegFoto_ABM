@@ -2,7 +2,7 @@ $(function(){
 			  var patentes = [ 
 
 			   {value: "111" , data: " carrizo " }, 
- {value: "333" , data: " arce " }, 
+ {value: "222" , data: " rios " }, 
 
 			   
 			  ];
